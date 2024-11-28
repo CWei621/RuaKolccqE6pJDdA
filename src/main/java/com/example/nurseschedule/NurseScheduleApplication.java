@@ -8,6 +8,7 @@ public class NurseScheduleApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(NurseScheduleApplication.class, args);
+        System.out.println("Hello, Nurse Schedule!");
     }
 
 }
