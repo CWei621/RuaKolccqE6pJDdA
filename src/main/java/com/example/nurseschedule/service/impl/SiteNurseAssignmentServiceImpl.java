@@ -9,6 +9,8 @@ import com.example.nurseschedule.repository.NurseRepository;
 import com.example.nurseschedule.service.SiteNurseAssignmentService;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class SiteNurseAssignmentServiceImpl implements SiteNurseAssignmentService {
@@ -65,5 +67,18 @@ public class SiteNurseAssignmentServiceImpl implements SiteNurseAssignmentServic
                 .stream()
                 .map(SiteNurseAssignment::getSite)
                 .toList();
+    }
+
+    @Override
+    public Map<String, List<Nurse>> getAllSitesWithNurses() {
+        List<Site> sites = siteRepository.findAll();
+        return sites.stream()
+                .collect(Collectors.toMap(
+                        site -> site.getId().toString(),
+                        site -> assignmentRepository.findBySite(site)
+                                .stream()
+                                .map(SiteNurseAssignment::getNurse)
+                                .collect(Collectors.toList())
+                ));
     }
 }

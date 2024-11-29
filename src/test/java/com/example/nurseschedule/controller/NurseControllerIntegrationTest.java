@@ -97,6 +97,6 @@ class NurseControllerIntegrationTest {
         mockMvc.perform(delete("/api/nurses/" + nurse.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("ok"))
-                .andExpect(jsonPath("$.data[0]").value("Nurse deleted successfully"));
+                .andExpect(jsonPath("$.data[0]").value("刪除成功"));
     }
 }

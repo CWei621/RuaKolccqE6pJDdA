@@ -2,7 +2,9 @@ package com.example.nurseschedule.controller;
 
 import com.example.nurseschedule.dto.ResponseWrapper;
 import com.example.nurseschedule.entity.Nurse;
+import com.example.nurseschedule.exception.ForeignKeyConstraintException;
 import com.example.nurseschedule.service.NurseService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,7 +39,14 @@ public class NurseController {
 
     @DeleteMapping("/{id}")
     public ResponseWrapper<String> deleteNurse(@PathVariable Long id) {
-        nurseService.deleteNurse(id);
-        return ResponseWrapper.ok(List.of("Nurse deleted successfully"));
+        try {
+            nurseService.deleteNurse(id);
+            return ResponseWrapper.ok(List.of("刪除成功"));
+        } catch (DataIntegrityViolationException e) {
+            if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+                throw new ForeignKeyConstraintException("護士仍在某些站點，請先移除");
+            }
+            throw e;
+        }
     }
 }

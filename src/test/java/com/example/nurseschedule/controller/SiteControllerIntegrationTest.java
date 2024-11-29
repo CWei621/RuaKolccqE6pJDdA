@@ -87,6 +87,6 @@ class SiteControllerIntegrationTest {
         mockMvc.perform(delete("/api/sites/" + site.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("ok"))
-                .andExpect(jsonPath("$.data[0]").value("Site deleted successfully"));
+                .andExpect(jsonPath("$.data[0]").value("刪除成功"));
     }
 }

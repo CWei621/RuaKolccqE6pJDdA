@@ -16,6 +16,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -57,7 +58,16 @@ class SiteNurseAssignmentControllerIntegrationTest {
         nurse.setEmployeeId("N123");
         nurse = nurseRepository.save(nurse);
 
-        mockMvc.perform(post("/api/assignments/assign?siteId=" + site.getId() + "&nurseId=" + nurse.getId()))
+        String requestBody = """
+            {
+                "siteId": %d,
+                "nurseId": %d
+            }
+            """.formatted(site.getId(), nurse.getId());
+
+        mockMvc.perform(post("/api/assignments/assign")
+                .contentType("application/json")
+                .content(requestBody))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("ok"))
                 .andExpect(jsonPath("$.data[0]").value("Nurse assigned to site successfully"));
@@ -75,13 +85,27 @@ class SiteNurseAssignmentControllerIntegrationTest {
         nurse.setEmployeeId("N123");
         nurse = nurseRepository.save(nurse);
 
-        mockMvc.perform(post("/api/assignments/assign?siteId=" + site.getId() + "&nurseId=" + nurse.getId()))
-                .andExpect(status().isOk());
+        mockMvc.perform(post("/api/assignments/assign")
+            .contentType("application/json")
+            .content("""
+                {
+                    "siteId": %d,
+                    "nurseId": %d
+                }
+                """.formatted(site.getId(), nurse.getId())))
+            .andExpect(status().isOk());
 
-        mockMvc.perform(delete("/api/assignments/remove?siteId=" + site.getId() + "&nurseId=" + nurse.getId()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value("ok"))
-                .andExpect(jsonPath("$.data[0]").value("Nurse removed from site successfully"));
+        mockMvc.perform(delete("/api/assignments/remove")
+            .contentType("application/json")
+            .content("""
+                {
+                    "siteId": %d,
+                    "nurseId": %d
+                }
+                """.formatted(site.getId(), nurse.getId())))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.status").value("ok"))
+            .andExpect(jsonPath("$.data[0]").value("Nurse removed from site successfully"));
     }
 
     @Test
@@ -96,8 +120,15 @@ class SiteNurseAssignmentControllerIntegrationTest {
         nurse.setEmployeeId("N123");
         nurse = nurseRepository.save(nurse);
 
-        mockMvc.perform(post("/api/assignments/assign?siteId=" + site.getId() + "&nurseId=" + nurse.getId()))
-                .andExpect(status().isOk());
+        mockMvc.perform(post("/api/assignments/assign")
+            .contentType("application/json")
+            .content("""
+            {
+                "siteId": %d,
+                "nurseId": %d
+            }
+            """.formatted(site.getId(), nurse.getId())))
+            .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/assignments/site/" + site.getId()))
                 .andExpect(status().isOk())
@@ -117,8 +148,15 @@ class SiteNurseAssignmentControllerIntegrationTest {
         nurse.setEmployeeId("N123");
         nurse = nurseRepository.save(nurse);
 
-        mockMvc.perform(post("/api/assignments/assign?siteId=" + site.getId() + "&nurseId=" + nurse.getId()))
-                .andExpect(status().isOk());
+        mockMvc.perform(post("/api/assignments/assign")
+            .contentType("application/json")
+            .content("""
+            {
+                "siteId": %d,
+                "nurseId": %d
+            }
+            """.formatted(site.getId(), nurse.getId())))
+            .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/assignments/nurse/" + nurse.getId()))
                 .andExpect(status().isOk())

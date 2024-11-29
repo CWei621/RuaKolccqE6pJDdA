@@ -11,5 +11,5 @@ public interface SiteNurseAssignmentRepository extends JpaRepository<SiteNurseAs
     Optional<SiteNurseAssignment> findBySiteIdAndNurseId(Long siteId, Long nurseId);
     List<SiteNurseAssignment> findBySite(Site site);
     List<SiteNurseAssignment> findByNurse(Nurse nurse);
-
+    boolean existsBySiteAndNurse(Site site, Nurse nurse);
 }
