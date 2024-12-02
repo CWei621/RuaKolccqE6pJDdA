@@ -1,6 +1,5 @@
 package com.example.nurseschedule.service;
 
-import com.example.nurseschedule.entity.SiteNurseAssignment;
 import com.example.nurseschedule.entity.Nurse;
 import com.example.nurseschedule.entity.Site;
 import java.util.List;

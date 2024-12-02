@@ -26,6 +26,7 @@ import ConfirmDialog from '../components/ConfirmDialog';
 import SnackbarNotification from '../components/SnackbarNotification';
 import SiteOverviewStyles from '../styles/SiteOverviewStyles';
 import PastelColors from '../utils/ColorUtils';
+import RESPONSE_MESSAGE from '../constants/ResponseMessage';
 
 const theme = createTheme();
 const styles = SiteOverviewStyles(theme);
@@ -50,11 +51,11 @@ function SiteOverview() {
       if (response.data.status === 'ok') {
         setSites(response.data.data);
       } else {
-        const message = response?.data?.message ?? '系統錯誤';
+        const message = response?.data?.message ?? RESPONSE_MESSAGE['System error'];
         setSnackbar({ open: true, message, severity: 'error' });
       }
     } catch (error) {
-      const message = error.response?.data?.message ?? '系統錯誤';
+      const message = error.response?.data?.message ?? RESPONSE_MESSAGE['System error'];
       setSnackbar({ open: true, message, severity: 'error' });
     }
   };
@@ -127,7 +128,7 @@ function SiteOverview() {
         setSnackbar({ open: true, message: '站點刪除成功', severity: 'success' });
       }
     } catch (error) {
-      const message = error.response?.data?.message ?? '系統錯誤';
+      const message = error.response?.data?.message ?? RESPONSE_MESSAGE['System error'];
       setSnackbar({ open: true, message, severity: 'error' });
     }
   };
@@ -173,10 +174,10 @@ function SiteOverview() {
       });
       if (response.data.status === 'ok') {
         fetchNurses(currentSite.id);
-        setSnackbar({ open: true, message: '護士移除成功', severity: 'success' });
+        setSnackbar({ open: true, message: '移除成功', severity: 'success' });
       }
     } catch (error) {
-      const message = error.response?.data?.message ?? 'Failed to remove nurse';
+      const message = error.response?.data?.message ?? '移除失敗';
       setSnackbar({ open: true, message, severity: 'error' });
     }
   };

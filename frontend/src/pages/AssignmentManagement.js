@@ -18,6 +18,7 @@ import {
 import api from '../api';
 import ConfirmDialog from '../components/ConfirmDialog';
 import SnackbarNotification from '../components/SnackbarNotification';
+import RESPONSE_MESSAGE from '../constants/ResponseMessage';
 
 function AssignmentManagement() {
   const [assignments, setAssignments] = useState([]);
@@ -52,11 +53,11 @@ function AssignmentManagement() {
         }));
         setAssignments(assignments);
       } else {
-        const message = response?.data?.message ?? 'System error';
+        const message = response?.data?.message ?? RESPONSE_MESSAGE['System error'];
         setSnackbar({ open: true, message, severity: 'error' });
       }
     } catch (error) {
-      const message = error.response?.data?.message ?? 'System error';
+      const message = error.response?.data?.message ?? RESPONSE_MESSAGE['System error'];
       setSnackbar({ open: true, message, severity: 'error' });
     }
   };
@@ -71,7 +72,7 @@ function AssignmentManagement() {
         setSnackbar({ open: true, message, severity: 'error' });
       }
     } catch (error) {
-      const message = error.response?.data?.message ?? 'System error';
+      const message = error.response?.data?.message ?? RESPONSE_MESSAGE['System error'];
       setSnackbar({ open: true, message, severity: 'error' });
     }
   };
@@ -82,11 +83,11 @@ function AssignmentManagement() {
       if (response.data.status === 'ok') {
         setNurses(response.data.data);
       } else {
-        const message = response?.data?.message ?? 'System error';
+        const message = response?.data?.message ?? RESPONSE_MESSAGE['System error'];
         setSnackbar({ open: true, message, severity: 'error' });
       }
     } catch (error) {
-      const message = error.response?.data?.message ?? 'System error';
+      const message = error.response?.data?.message ?? RESPONSE_MESSAGE['System error'];
       setSnackbar({ open: true, message, severity: 'error' });
     }
   };
@@ -138,11 +139,11 @@ function AssignmentManagement() {
         handleDialogClose();
         setSnackbar({ open: true, message: '護士分配站點成功', severity: 'success' });
       } else {
-        const message = response?.data?.message ?? 'System error';
+        const message = response?.data?.message ?? RESPONSE_MESSAGE['System error'];
         setSnackbar({ open: true, message, severity: 'error' });
       }
     } catch (error) {
-      const message = error.response?.data?.message ?? 'System error';
+      const message = error.response?.data?.message ?? RESPONSE_MESSAGE['System error'];
       setSnackbar({ open: true, message, severity: 'error' });
     }
   };
@@ -155,11 +156,11 @@ function AssignmentManagement() {
         handleConfirmDialogClose();
         setSnackbar({ open: true, message: '移除成功', severity: 'success' });
       } else {
-        const message = response?.data?.message ?? 'System error';
+        const message = response?.data?.message ?? RESPONSE_MESSAGE['System error'];
         setSnackbar({ open: true, message, severity: 'error' });
       }
     } catch (error) {
-      const message = error.response?.data?.message ?? 'System error';
+      const message = error.response?.data?.message ?? RESPONSE_MESSAGE['System error'];
       setSnackbar({ open: true, message, severity: 'error' });
     }
   };

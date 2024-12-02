@@ -28,6 +28,7 @@ import PastelColors from '../utils/ColorUtils';
 import NurseOverviewStyles from '../styles/NurseOverviewStyles';
 import ConfirmDialog from '../components/ConfirmDialog';
 import SnackbarNotification from '../components/SnackbarNotification';
+import RESPONSE_MESSAGE from '../constants/ResponseMessage';
 
 
 const theme = createTheme();
@@ -57,11 +58,11 @@ function NurseOverview() {
       if (response.data.status === 'ok') {
         setNurses(response.data.data);
       } else {
-        const message = response?.data?.message ?? 'Failed to fetch nurses';
+        const message = response?.data?.message ?? RESPONSE_MESSAGE['System error'];
         setSnackbar({ open: true, message, severity: 'error' });
       }
     } catch (error) {
-      const message = error.response?.data?.message ?? 'Failed to fetch nurses';
+      const message = error.response?.data?.message ?? RESPONSE_MESSAGE['System error'];
       setSnackbar({ open: true, message, severity: 'error' });
     }
   };
@@ -88,7 +89,7 @@ function NurseOverview() {
     } catch (error) {
       setSnackbar({
         open: true,
-        message: '系統錯誤',
+        message: RESPONSE_MESSAGE['System error'],
         severity: 'error'
       });
     }
@@ -162,7 +163,7 @@ function NurseOverview() {
       fetchNurses();
       handleDialogClose();
     } catch (error) {
-      const message = error.response?.data?.message ?? 'Failed to save nurse';
+      const message = error.response?.data?.message ?? RESPONSE_MESSAGE['System error'];
       setSnackbar({ open: true, message, severity: 'error' });
     }
   };
@@ -178,7 +179,7 @@ function NurseOverview() {
           severity: 'success'
         });
       } else {
-        const message = response?.data?.message ?? 'Failed to delete nurse';
+        const message = response?.data?.message ?? RESPONSE_MESSAGE['System error'];
         setSnackbar({
           open: true,
           message,
@@ -186,7 +187,7 @@ function NurseOverview() {
         });
       }
     } catch (error) {
-      const message = error.response?.data?.message ?? 'Failed to delete nurse';
+      const message = error.response?.data?.message ?? RESPONSE_MESSAGE['System error'];
       setSnackbar({
         open: true,
         message,
