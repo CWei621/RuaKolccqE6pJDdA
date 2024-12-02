@@ -5,8 +5,10 @@ services:
     build: 
       context: ./backend
       dockerfile: Dockerfile
+    env_file:
+      - .env
     ports:
-      - "9090:9090"
+      - "${SERVER_PORT}:9090"
     networks:
       - app-network
     restart: unless-stopped
@@ -15,13 +17,15 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    env_file: 
-      - .env
+      args:
+        REACT_APP_API_URL: ${REACT_APP_API_URL}
+    environment:
+      - REACT_APP_API_URL=${REACT_APP_API_URL}
     volumes:
       - ./frontend:/app
       - node-modules:/app/node_modules
     ports:
-      - "3000:80"
+      - "${REACT_APP_PORT}:80"
     networks:
       - app-network
     depends_on:
@@ -31,14 +35,16 @@ services:
   mysql:
     image: mysql:8.0
     environment:
-      MYSQL_DATABASE: nurse-schedule
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: mypassword
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    env_file:
+      - .env
     ports:
-      - "3310:3306"
+      - "${MYSQL_PORT}:3306"
     volumes:
-      - mysql-data:/var/lib/mysql
+      - ./mysql-data:/var/lib/mysql
     networks:
       - app-network
 
