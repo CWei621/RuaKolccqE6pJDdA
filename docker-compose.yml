@@ -28,29 +28,25 @@ services:
       - backend
     restart: unless-stopped
 
-  postgres:
-    image: postgres:15-alpine
-    env_file: 
-      - .env
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: nurse-schedule
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3310:3306"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
-      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql-data:/var/lib/mysql
     networks:
       - app-network
-    ports:
-      - "5432:5432"
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
 networks:
   app-network:
     driver: bridge
 
 volumes:
-  postgres-data:
+  mysql-data:
   maven-cache:
   node-modules:

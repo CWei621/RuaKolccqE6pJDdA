@@ -35,7 +35,7 @@ public class DataSourceTest {
         try (Connection connection = dataSource.getConnection()) {
             DatabaseMetaData metaData = connection.getMetaData();
             String databaseProductName = metaData.getDatabaseProductName();
-            assertThat(databaseProductName).isEqualTo("PostgreSQL");
+            assertThat(databaseProductName).isEqualTo("H2");
         }
     }
 }
